@@ -83,7 +83,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'AdminLTE Preloader Image',
@@ -290,6 +290,18 @@ return [
             'icon'        => 'far fa-fw fa-file',
             'label'       => 4,
             'label_color' => 'success',
+        ],
+        [
+            'text'        => 'Alumnos',
+            'url'         => 'alumnos',
+            'icon'        => 'fas fa-fw fa-user fa-border',
+            /* 'label'       => 4,
+            'label_color' => 'success', */
+        ],
+        [
+            'text'        => 'Docentes',
+            'url'         => 'docentes',
+            'icon'        => 'far fa-fw fa-user',
         ],
         ['header' => 'account_settings'],
         [

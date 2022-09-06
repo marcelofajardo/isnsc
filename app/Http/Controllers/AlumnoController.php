@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Alumno;
 use Illuminate\Http\Request;
 
+/**
+ * Class AlumnoController
+ * @package App\Http\Controllers
+ */
 class AlumnoController extends Controller
 {
     /**
@@ -14,7 +18,10 @@ class AlumnoController extends Controller
      */
     public function index()
     {
-        //
+        $alumnos = Alumno::paginate();
+
+        return view('alumno.index', compact('alumnos'))
+            ->with('i', (request()->input('page', 1) - 1) * $alumnos->perPage());
     }
 
     /**
@@ -24,62 +31,79 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        //
+        $alumno = new Alumno();
+        return view('alumno.create', compact('alumno'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        request()->validate(Alumno::$rules);
+
+        $alumno = Alumno::create($request->all());
+
+        return redirect()->route('alumnos.index')
+            ->with('success', 'Alumno created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Alumno  $alumno
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Alumno $alumno)
+    public function show($id)
     {
-        //
+        $alumno = Alumno::find($id);
+
+        return view('alumno.show', compact('alumno'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Alumno  $alumno
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Alumno $alumno)
+    public function edit($id)
     {
-        //
+        $alumno = Alumno::find($id);
+
+        return view('alumno.edit', compact('alumno'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Alumno  $alumno
+     * @param  \Illuminate\Http\Request $request
+     * @param  Alumno $alumno
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Alumno $alumno)
     {
-        //
+        request()->validate(Alumno::$rules);
+
+        $alumno->update($request->all());
+
+        return redirect()->route('alumnos.index')
+            ->with('success', 'Alumno updated successfully');
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Alumno  $alumno
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
-    public function destroy(Alumno $alumno)
+    public function destroy($id)
     {
-        //
+        $alumno = Alumno::find($id)->delete();
+
+        return redirect()->route('alumnos.index')
+            ->with('success', 'Alumno deleted successfully');
     }
 }

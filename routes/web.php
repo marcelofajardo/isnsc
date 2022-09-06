@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AlumnoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,13 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+    /* Route::resource('alumnos', AlumnoController::class)->names([
+        'index' => 'alumnos.index',
+        'store' => 'alumnos.store',
+        'create' => 'alumnos.create',
+    ]); */
 });
+
+//Route Hooks - Do not delete//
+	Route::view('alumnos', 'livewire.alumnos.index')->middleware('auth');
+	Route::view('docentes', 'livewire.docentes.index')->middleware('auth');
